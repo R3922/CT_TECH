@@ -8,9 +8,8 @@ $cotizacion = [
     'contacto'      => 'Cliente de Prueba',
     'correo'        => 'Cliente de Prueba',
     'servicio'      => 'Servicio de Ejemplo',
-    'total_neto'    => '900.000',
-    'iva'           => '171.000',
-    'total'         => '1.071.000',
+    
+    
     'observaciones' => "Estas son observaciones de ejemplo.\nPuedes incluir varias líneas."
 ];
 
@@ -157,15 +156,16 @@ if (!isset($cotizacion) || !is_array($cotizacion)) {
         <tbody>
           <tr>
             <th>Total Neto</th>
-            <td><?php echo htmlspecialchars($cotizacion['total_neto']); ?></td>
+            <td id="totalNeto"></td>
           </tr>
           <tr>
-            <th>IVA</th>
-            <td><?php echo htmlspecialchars($cotizacion['iva']); ?></td>
+          
+            <th>IVA (19%)</th>
+            <td id="iva"></td>
           </tr>
           <tr>
             <th>Total</th>
-            <td><?php echo htmlspecialchars($cotizacion['total']); ?></td>
+            <td id="total"></td>
           </tr>
         </tbody>
       </table>

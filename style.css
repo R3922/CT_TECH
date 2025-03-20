@@ -86,28 +86,39 @@
   }
   
   /* ======= TABLA DE TOTALES ======= */
+
   .totals table {
+    border: 1px solid #ddd;
     width: 100%;
     border-collapse: collapse;
-    margin-top: 15px;
+    margin: 20px 0px;              
+    width: 300px;                /* Ancho fijo para angostar la tabla */
+    float: right;  
+    
   }
+
   
-  .totals th {
-    text-align: left;
-    width: 30%;
-    padding: 8px;
-    background-color: #eee;
-  }
-  
+  .totals th, 
   .totals td {
-    width: 70%;
-    padding: 8px;
-    border-bottom: 1px solid #ddd;
+  border: 1px solid #ddd;     /* Bordes en cada celda */
+  padding: 8px 50px;          /* Espacio interno */
+  text-align: right;          /* Alinear a la derecha (opcional) */
+  }
+
+  /* La primera columna (encabezados) alineada a la izquierda */
+  .totals th {
+  text-align: right;
+  white-space: nowrap;
+  }
+
+  /* Los resultados numéricos en negrita (segunda columna) */
+  .totals td:nth-child(2) {
+  font-weight: bold;
   }
   
   /* ======= OBSERVACIONES ======= */
   .observations {
-    margin-top: 20px;
+    margin-top: 150px;
   }
   
   .observations h3 {
