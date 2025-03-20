@@ -1,0 +1,254 @@
+/* ======= RESET BÁSICO ======= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* ======= ESTILOS GENERALES ======= */
+  body {
+    margin: 40px; /* Ajusta el valor según necesites */
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    padding: 20px;
+  }
+  
+  /* Contenedor principal */
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    
+  }
+  
+  /* Box estandarizado para el encabezado */
+  .header-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border: 1px solid #ddd;
+    padding: 15px;
+    background-color: #fafafa;
+    margin-bottom: 20px;
+  }
+  
+  /* Estilos para la sección izquierda (información) */
+  .header-left h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+
+  /* Tabla de información (Fecha, Cliente, etc.) */
+  .header-table {
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+
+  .header-table th,
+  .header-table td {
+  padding: 4px 8px;
+  text-align: left;
+  vertical-align: top;
+  }
+  
+  
+  .header-left p {
+    margin: 5px 0;
+    font-size: 16px;
+  }
+  
+  /* Estilos para la sección derecha (logo) */
+  .header-right img {
+    max-height: 80px;
+    width: auto;
+  }
+  
+  /* ======= SEPARADOR ======= */
+  hr {
+    margin: 20px 0;
+    border: none;
+    border-top: 2px solid #ccc;
+  }
+  
+  /* ======= SECCIÓN DE SERVICIO ======= */
+  .service h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 5px;
+  }
+  
+  .service p {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  
+  /* ======= TABLA DE TOTALES ======= */
+  .totals table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+  }
+  
+  .totals th {
+    text-align: left;
+    width: 30%;
+    padding: 8px;
+    background-color: #eee;
+  }
+  
+  .totals td {
+    width: 70%;
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  /* ======= OBSERVACIONES ======= */
+  .observations {
+    margin-top: 20px;
+  }
+  
+  .observations h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 5px;
+  }
+  
+  .observations p {
+    background-color: #f9f9f9;
+    padding: 10px;
+    border: 1px solid #ddd;
+    line-height: 1.5;
+    font-size: 16px;
+  }
+
+  /* ======= BOX DE IMÁGENES ======= */
+  .image-box {
+    border: 2px dashed #ccc;  /* Borde punteado para resaltar el box */
+    padding: 15px;
+    margin-top: 20px;
+    background-color: #fafafa;
+  }
+  
+  .image-box h3 {
+    margin-bottom: 10px;
+    font-size: 18px;
+  }
+  
+  .image-box .images {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;  /* Espacio entre imágenes */
+  }
+  
+  .image-box .images img {
+    width: 150px;      /* Ajusta el tamaño deseado */
+    height: auto;
+    border: 1px solid #ddd;
+    padding: 5px;
+    background-color: #fff;
+  }
+  
+
+/* ======= BOX DETALLE EN OFERTA DEL SERVICIO ======= */
+
+.detalle-box {
+    min-width: 800px;
+    width: 100%;           
+    margin-top: 15px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    background-color: #fafafa;
+  }
+  
+  .detalle-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed; /* Forzamos ancho fijo en las columnas */
+  }
+
+  /* Asigna un ancho mayor a la primera columna (Detalle) */
+  .detalle-box .detalle-table {
+    table-layout: fixed;
+    width: 100%;
+}
+
+  .detalle-box .detalle-table th:first-child,
+  .detalle-box .detalle-table td:first-child {
+    width: 50%;  /* Ajusta este valor según tus necesidades */
+}
+
+  .detalle-box .detalle-table tbody input.detalle {
+    width: 100% !important;
+    padding: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+    display: block;
+  }
+  
+
+  /* Ajuste de ancho para los inputs dentro de la tabla */
+  .detalle-table input[type="text"],
+  .detalle-table input[type="number"] {
+    width: 100%;         /* Ocupa todo el ancho de la celda */
+    padding: 6px;        /* Un padding un poco mayor */
+    box-sizing: border-box; 
+    font-size: 14px;     /* Ajusta el tamaño de la fuente si lo deseas */
+  }
+
+  /* Asegura que la columna de Total tenga un ancho mínimo y un estilo más destacado */
+  .detalle-table td.total {
+    min-width: 80px;       /* Ajusta según tus necesidades */
+    text-align: right;     /* Alinea el valor a la derecha */
+    font-weight: bold;     /* Resalta en negrita */
+    white-space: nowrap;   /* Evita que se parta el texto en varias líneas */
+  }
+
+  
+  .detalle-table th,
+  .detalle-table td {
+    border: 1px solid #fff;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .detalle-table th {
+    background-color: #eee;
+  }
+  
+  /* Contenedor para los botones de acción */
+  .detalle-buttons {
+    margin-top: 20px;
+  }
+  
+  /* Botones de acción */
+  .detalle-buttons button {
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    margin-right: 10px;
+    color: #fff;
+  }
+  
+  /* Botón Agregar Detalle */
+  #cloneButton {
+    background-color: #3498db;
+  }
+  
+  #cloneButton:hover {
+    background-color: #2980b9;
+  }
+  
+  /* Botón Eliminar Detalle */
+  #deleteButton {
+    background-color: #e74c3c;
+  }
+  
+  #deleteButton:hover {
+    background-color: #c0392b;
+  }
+  
+  
