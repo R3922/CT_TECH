@@ -149,8 +149,40 @@ if (!isset($cotizacion) || !is_array($cotizacion)) {
   </style>
 </head>
 <body>
+  
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Ejemplo de Box</title>
+  <style>
+    .box {
+      border: 1px solid #ccc;
+      padding: 15px;
+      background-color: #f9f9f9;
+      width: 350px; /* Ajusta el ancho según necesites */
+      margin: 2.5px 0 2.5px 2.5px; /* Centra el box y agrega márgenes */
+    }
+    
+  </style>
+</head>
 
-
+  <body>
+    <div class="box">
+        <div class="box-content">
+          <table>
+            <tr>
+              <td>
+                <label for="vendedor">Vendedor:</label>
+                <input type="text" id="vendedor" name="vendedor">
+              </td>
+            </tr>
+          </table>
+      </div>
+    </div>
+  </body>
+</html>
+       
   
   <!-- Tabla con la información (Fecha, Cliente, etc.) -->
   <table class="header-table">

@@ -1,5 +1,6 @@
 document.getElementById('clientForm').addEventListener('input', function() {
     // Obtener los valores del formulario
+    var vendedor = document.getElementById('vendedor').value;
     var fecha = document.getElementById('fecha').value;
     var cliente = document.getElementById('cliente').value;
     var giro = document.getElementById('giro').value;
@@ -12,6 +13,10 @@ document.getElementById('clientForm').addEventListener('input', function() {
     var headerTable = document.querySelector('.header-table');
     if(headerTable) {
       headerTable.innerHTML = `
+        <tr>
+          <th>Fecha:</th>
+          <td>${vendedor}</td>
+        </tr>
         <tr>
           <th>Fecha:</th>
           <td>${fecha}</td>
