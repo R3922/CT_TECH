@@ -26,13 +26,14 @@
   /* Box estandarizado para el encabezado */
   .header-box {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
+    justify-content: center;
+    align-items: center;
     border: 1px solid #ddd;
     padding: 15px;
-    background-color: #fafafa;
+    background-color: #d8d5d5;
     margin-bottom: 20px;
   }
+
   
   /* Estilos para la sección izquierda (información) */
   .header-left h1 {

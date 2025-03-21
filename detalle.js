@@ -8,6 +8,16 @@ document.addEventListener('DOMContentLoaded', function() {
     var boxes = container.querySelectorAll('.detalle-box');
     deleteButton.style.display = boxes.length > 1 ? 'inline-block' : 'none';
   }
+
+  // Función auxiliar para formatear números:
+  // - Redondea al entero más cercano
+  // - Agrega separadores de miles según el formato español
+  function formatNumber(value) {
+    return Math.round(value).toLocaleString('es-ES', {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0
+    });
+  }
   
   // Función para recalcular el total de una fila (cantidad * precio)
   function recalculateRow(row) {
@@ -19,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var precio = parseFloat(precioInput.value) || 0;
     var rowTotal = cantidad * precio;
 
-    totalCell.textContent = rowTotal.toFixed(2);
+    totalCell.textContent = formatNumber(rowTotal);
     console.log('Fila recalculada:', rowTotal);
   }
 
@@ -28,20 +38,22 @@ document.addEventListener('DOMContentLoaded', function() {
     var rows = document.querySelectorAll('.detalle-box tbody tr');
     var totalNeto = 0;
     rows.forEach(function(row) {
-      var rowTotal = parseFloat(row.querySelector('.total').textContent) || 0;
-      totalNeto += rowTotal;
+      // Se extrae el valor formateado y se eliminan los separadores de miles para poder parsearlo
+      var rowText = row.querySelector('.total').textContent;
+      var rowNumber = parseFloat(rowText.replace(/\./g, '')) || 0;
+      totalNeto += rowNumber;
     });
     
     // Actualiza el Total Neto
-    document.getElementById('totalNeto').textContent = totalNeto.toFixed(2);
+    document.getElementById('totalNeto').textContent = formatNumber(totalNeto);
     
     // Calcular el IVA (19% del Total Neto)
     var iva = totalNeto * 0.19;
-    document.getElementById('iva').textContent = iva.toFixed(2);
+    document.getElementById('iva').textContent = formatNumber(iva);
     
     // Calcular el Total (Total Neto + IVA)
     var total = totalNeto + iva;
-    document.getElementById('total').textContent = total.toFixed(2);
+    document.getElementById('total').textContent = formatNumber(total);
     
     console.log('Total Neto:', totalNeto, 'IVA:', iva, 'Total:', total);
   }
@@ -57,10 +69,10 @@ document.addEventListener('DOMContentLoaded', function() {
       input.value = "";
     });
     
-    // Reiniciar la celda de total a 0.00
+    // Reiniciar la celda de total a '0'
     var totalCells = clone.querySelectorAll('.total');
     totalCells.forEach(function(cell) {
-      cell.textContent = "0.00";
+      cell.textContent = "0";
     });
     
     container.appendChild(clone);
@@ -86,4 +98,5 @@ document.addEventListener('DOMContentLoaded', function() {
       updateTotalNeto();
     }
   });
+  //updateTotalNeto();
 });
