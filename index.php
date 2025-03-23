@@ -24,7 +24,7 @@ $cotizacion = [
   'servicio'      => 'A continuación se detalla el itimizado de cotización...',
 
 
-  'observaciones' => "1) El cliente dene confirmar con OC (Orden de Compra).<br>"
+  'observaciones' => "1) El cliente debe confirmar con OC (Orden de Compra).<br>"
     . '2) Pago del 50% por adelantado y, otro 50% una vez estando listo el equipo para su retiro.<br><br>'
     . 'TECHMINING SpA <br>'
     . '77.786.156-6 <br>'
@@ -234,15 +234,12 @@ if (!isset($cotizacion) || !is_array($cotizacion)) {
 <!-- Separador -->
 <hr>
 
-<!-- Sección de servicio -->
 <section class="service">
   <h2>Oferta del Servicio</h2>
-  <?php echo htmlspecialchars($cotizacion['servicio']); ?></p>
+  <!-- Aquí tu contenido de oferta, etc. -->
 </section>
 
-<!-- Contenedor para los boxes de detalle -->
 <div id="detalle-container">
-  <!-- Box de Detalle para el servicio (plantilla original, sin botón de eliminar) -->
   <div class="detalle-box">
     <table class="detalle-table">
       <thead>
@@ -255,26 +252,36 @@ if (!isset($cotizacion) || !is_array($cotizacion)) {
         </tr>
       </thead>
       <tbody>
-        <!-- Fila de detalle con inputs para ingresar valores -->
-        <tr>
-
+        <!-- Única fila base (plantilla) -->
+        <tr id="detalle-row">
           <td>
-            <input type="text" class="detalle" value="" placeholder="">
+            <!-- El botón de comentarios se ubica junto al input "Detalle" -->
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <input type="text" class="detalle" placeholder="Detalle">
+              <button type="button" class="comment-btn">Comentarios</button>
+            </div>
           </td>
           <td>
-            <input type="text" class="unidad" value="" placeholder="">
+            <input type="text" class="unidad" placeholder="Unidad">
           </td>
           <td>
-            <input type="number" class="cantidad" value="" placeholder="" min="0">
+            <input type="number" class="cantidad" placeholder="Cantidad" min="0">
           </td>
           <td>
-            <input type="number" class="precio" value="" placeholder="" step="any" min="0">
+            <input type="number" class="precio" placeholder="Precio" step="any" min="0">
           </td>
-          <td class="total">0.00</td>
+          <td class="total">0</td>
         </tr>
       </tbody>
     </table>
   </div>
+</div>
+
+<!-- Box de comentarios colocado debajo del box "detalle" -->
+<div id="comments-box" style="display: none; margin-top: 10px;">
+  <textarea placeholder="Escribe tus comentarios" style="width:100%; height: 100px;"></textarea>
+  <br>
+  <button id="close-comment-box" type="button">Cerrar Comentarios</button>
 </div>
 
 <!-- Contenedor para los botones de acción -->
@@ -283,22 +290,91 @@ if (!isset($cotizacion) || !is_array($cotizacion)) {
   <button id="deleteButton" type="button" style="display: none;">Eliminar Detalle</button>
 </div>
 
-<!-- Inclusión del archivo JS externo -->
-<script src="detalle.js"></script>
-<script src="box_principal.js"></script>
+<!-- Inclusión de archivos JS externos -->
+<script src="js/detalle.js"></script>
+<script src="js/boton_comment.js"></script>
+<script src="js/box_principal.js"></script>
 
-</section>
 
 
-<!-- Sección para incluir imágenes -->
-<section class="image-box">
-  <h3>Galería de Imágenes</h3>
-  <div class="images">
-    <img src="imagen1.jpg" alt="Imagen 1">
-    <img src="imagen2.jpg" alt="Imagen 2">
-    <!-- Agrega más imágenes según sea necesario -->
-  </div>
-</section>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Galería de Imágenes con Eliminación</title>
+  <style>
+    /* Estilos para la sección de la galería */
+    .image-box {
+      margin: 20px 0;
+    }
+    .image-box h3 {
+      margin-bottom: 10px;
+    }
+    .images {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    /* Contenedor de cada imagen */
+    .gallery-item {
+      position: relative;
+      display: inline-block;
+    }
+    .gallery-item img {
+      width: 150px;
+      height: auto;
+      border: 1px solid #ccc;
+      padding: 5px;
+      border-radius: 4px;
+      display: block;
+    }
+    /* Botón de eliminar en formato "×" */
+    .delete-image {
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      background: rgba(255, 0, 0, 0.8);
+      color: #fff;
+      border: none;
+      padding: 0 5px;
+      cursor: pointer;
+      border-radius: 50%;
+      font-size: 16px;
+      line-height: 1;
+    }
+    .delete-image:hover {
+      background: rgba(255, 0, 0, 1);
+    }
+    /* Estilos para la sección de inserción de imágenes */
+    .upload-box {
+      margin-top: 20px;
+    }
+    .upload-box input[type="file"] {
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Sección para la galería de imágenes -->
+  <section class="image-box">
+    <h3>Galería de Imágenes</h3>
+    <div class="images" id="gallery">
+    </div>
+  </section>
+
+  <!-- Sección para insertar nuevas imágenes -->
+  <section class="upload-box">
+    
+    <input type="file" id="imageInput" accept="image/*">
+    <button id="uploadButton">Insertar Imagen</button>
+  </section>
+
+  <script src="js/insert_image.js"></script>
+
+
+</body>
+</html>
 
 
 <!-- Sección de totales en forma de tabla -->
