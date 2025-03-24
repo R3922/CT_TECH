@@ -26,12 +26,16 @@ document.addEventListener('DOMContentLoaded', function() {
     var cantidadInput = row.querySelector('.cantidad');
     var precioInput = row.querySelector('.precio');
     var totalCell = row.querySelector('.total');
+    var totalInput    = row.querySelector('.total');
 
     var cantidad = parseFloat(cantidadInput.value) || 0;
     var precio = parseFloat(precioInput.value) || 0;
     var rowTotal = cantidad * precio;
 
     totalCell.textContent = formatNumber(rowTotal);
+    if (totalInput) {
+      totalInput.value = rowTotal;
+    }
     console.log('Fila recalculada:', rowTotal);
   }
 

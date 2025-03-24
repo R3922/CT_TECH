@@ -2,9 +2,9 @@
 // conexion.php
 
 $host    = 'localhost';
-$db      = 'nombre_base_datos'; // Reemplaza con el nombre de tu base de datos
-$user    = 'usuario';           // Reemplaza con tu usuario de la BD
-$pass    = 'contraseña';        // Reemplaza con tu contraseña
+$db      = 'ct_tech'; // Reemplaza con el nombre de tu base de datos
+$user    = 'root';           // Reemplaza con tu usuario de la BD
+$pass    = '112233';        // Reemplaza con tu contraseña
 $charset = 'utf8mb4';
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";

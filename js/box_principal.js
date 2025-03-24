@@ -1,13 +1,14 @@
 document.getElementById('clientForm').addEventListener('input', function() {
     // Obtener los valores del formulario
-    var vendedor = document.getElementById('vendedor').value;
+    var vendedor = document.getElementById('nom_ven').value;
     var fecha = document.getElementById('fecha').value;
+    var correo = document.getElementById('correo').value;
     var cliente = document.getElementById('cliente').value;
     var giro = document.getElementById('giro').value;
     var rut = document.getElementById('rut').value;
     var lugar = document.getElementById('lugar').value;
     var contacto = document.getElementById('contacto').value;
-    var correo = document.getElementById('correo').value;
+  
   
     // Actualizar la tabla en la cabecera (suponiendo que la tabla tiene la clase header-table)
     var headerTable = document.querySelector('.header-table');

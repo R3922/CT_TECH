@@ -9,6 +9,7 @@ if (file_exists($counterFile)) {
   $number = 1;
 }
 $displayNumber =  str_pad($number, 3, '0', STR_PAD_LEFT);
+// Ojo: la BD también podría llevar su propio autoincremento, esto es opcional
 file_put_contents($counterFile, $number + 1);
 
 
@@ -25,7 +26,8 @@ $cotizacion = [
 
 
   'observaciones' => "1) El cliente debe confirmar con OC (Orden de Compra).<br>"
-    . '2) Pago del 50% por adelantado y, otro 50% una vez estando listo el equipo para su retiro.<br><br>'
+    . '2) Esta oferta tiene una validez de 15 días.<br>'
+    . '3) Esta cotización podrá ir acompañada de contrato y, condicionada a su aceptación.<br><br>'
     . 'TECHMINING SpA <br>'
     . '77.786.156-6 <br>'
     . 'Banco Santander <br>'
@@ -34,23 +36,7 @@ $cotizacion = [
 
 ];
 
-/*
-   Si luego quieres usar la BD, harías algo como:
-   -----------------------------------------------
-   require_once 'conexion.php';
-   $query = "SELECT numero, fecha, cliente, servicio, total_neto, iva, total, observaciones 
-             FROM cotizaciones 
-             WHERE id = :id";
-   $stmt = $pdo->prepare($query);
-   $stmt->execute(['id' => 1]);
-   $cotizacion = $stmt->fetch();
-   if (!$cotizacion) {
-       die('Cotización no encontrada.');
-   }
-   -----------------------------------------------
-*/
-
-// Evita los warnings revisando que $cotizacion esté definido y sea un array:
+// 3. (Opcional) para evitar warnings si $cotizacion no está definida
 if (!isset($cotizacion) || !is_array($cotizacion)) {
   die('No hay datos de cotización disponibles.');
 }
@@ -85,6 +71,8 @@ if (!isset($cotizacion) || !is_array($cotizacion)) {
 
   <div class="container">
     <!-- Encabezado principal -->
+    <!-- Formulario que enviará datos a procesar.php -->
+  <form  id="clientForm" action="procesar.php" method="POST" enctype="multipart/form-data">
     <header class="header-box">
       <div style="width: 50%; text-align: center;">
         <h1 style="margin: 0;">Cotización: CT-<?php echo $displayNumber; ?></h1>
@@ -97,7 +85,9 @@ if (!isset($cotizacion) || !is_array($cotizacion)) {
             nl2br(htmlspecialchars($cotizacion['Correo']));
           ?>
         </p>
-
+        
+        <!-- Enviamos también el número de cotización que se usará en la BD -->
+        <input type="hidden" name="id_cot" value="<?php echo $displayNumber; ?>">
 
       </div>
 
@@ -149,7 +139,7 @@ if (!isset($cotizacion) || !is_array($cotizacion)) {
   </style>
 </head>
 <body>
-  
+ 
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -174,7 +164,8 @@ if (!isset($cotizacion) || !is_array($cotizacion)) {
             <tr>
               <td>
                 <label for="vendedor">Vendedor:</label>
-                <input type="text" id="vendedor" name="vendedor">
+                <input type="text" name ='nom_ven' class="vendedor" placeholder="Nombre Vendedor">
+               
               </td>
             </tr>
           </table>
@@ -189,41 +180,41 @@ if (!isset($cotizacion) || !is_array($cotizacion)) {
     <tr>
       <td>
         <label for="fecha">Fecha:</label>
-        <input type="date" id="fecha" name="fecha">
+        <input type="date" name = 'fecha' class="fecha">
       </td>
       <td>
         <label for="correo">Correo:</label>
-        <input type="email" id="correo" name="correo" placeholder="Ingrese el correo">
+        <input type="email" name="correo" class="correo" placeholder="Ingrese el correo">
       </td>
     </tr>
     <tr>
       <td>
         <label for="cliente">Cliente:</label>
-        <input type="text" id="cliente" name="cliente" placeholder="Ingrese el nombre del cliente">
+        <input type="text" name="cliente" class="cliente"  placeholder="Ingrese el nombre del cliente">
       </td>
       <td>
         <label for="giro">Giro:</label>
-        <input type="text" id="giro" name="giro" placeholder="Ingrese actividad comercial">
+        <input type="text" name="giro" class="giro" placeholder="Ingrese actividad comercial">
       </td>
     </tr>
     <tr>
       <td>
         <label for="celular">Cell Phone:</label>
-        <input type="text" id="celular" name="celular" placeholder="Ingrese número de teléfono">
+        <input type="text" name="celular" class="celular" placeholder="Ingrese número de teléfono">
       </td>
       <td>
         <label for="contacto">Contacto:</label>
-        <input type="text" id="contacto" name="contacto" placeholder="Ingrese el contacto">
+        <input type="text" name="contacto" class="contacto" placeholder="Ingrese el contacto">
       </td>
     </tr>
     <tr>
       <td>
         <label for="rut">R.U.T:</label>
-        <input type="text" id="rut" name="rut" placeholder="Ingrese RUT">
+        <input type="text" name="rut" class="contacto" placeholder="Ingrese RUT">
       </td>
       <td>
         <label for="direccion">Dirección:</label>
-        <input type="text" id="lugar" name="lugar" placeholder="Ingrese Dirección">
+        <input type="text" name="lugar" class="contacto" placeholder="Ingrese Dirección">
       </td>
     </tr>
   </table>
@@ -236,6 +227,7 @@ if (!isset($cotizacion) || !is_array($cotizacion)) {
 
 <section class="service">
   <h2>Oferta del Servicio</h2>
+  <p><?php echo nl2br(htmlspecialchars($cotizacion['servicio'])); ?></p>
   <!-- Aquí tu contenido de oferta, etc. -->
 </section>
 
@@ -257,20 +249,22 @@ if (!isset($cotizacion) || !is_array($cotizacion)) {
           <td>
             <!-- El botón de comentarios se ubica junto al input "Detalle" -->
             <div style="display: flex; align-items: center; gap: 8px;">
-              <input type="text" class="detalle" placeholder="Detalle">
+              <input type="text" name = 'deta[]' class="detalle" placeholder="Detalle">
               <button type="button" class="comment-btn">Comentarios</button>
             </div>
           </td>
           <td>
-            <input type="text" class="unidad" placeholder="Unidad">
+            <input type="text" name = 'und[]' class="unidad" placeholder="Unidad">
           </td>
           <td>
-            <input type="number" class="cantidad" placeholder="Cantidad" min="0">
+            <input type="number" name = 'cant[]' class="cantidad" placeholder="Cantidad" min="0">
           </td>
           <td>
-            <input type="number" class="precio" placeholder="Precio" step="any" min="0">
+            <input type="number" name = 'prec[]' class="precio" placeholder="Precio" min="0">
           </td>
-          <td class="total">0</td>
+          <td>
+            <input type="number" name="tot[]" class="total">
+          </td>
         </tr>
       </tbody>
     </table>
@@ -367,7 +361,7 @@ if (!isset($cotizacion) || !is_array($cotizacion)) {
   <section class="upload-box">
     
     <input type="file" id="imageInput" accept="image/*">
-    <button id="uploadButton">Insertar Imagen</button>
+    <button id="uploadButton" type="button">Insertar Imagen</button>
   </section>
 
   <script src="js/insert_image.js"></script>
@@ -386,7 +380,6 @@ if (!isset($cotizacion) || !is_array($cotizacion)) {
         <td id="totalNeto"></td>
       </tr>
       <tr>
-
         <th>IVA (19%)</th>
         <td id="iva"></td>
       </tr>
@@ -398,6 +391,8 @@ if (!isset($cotizacion) || !is_array($cotizacion)) {
   </table>
 </section>
 
+
+
 <!-- Observaciones -->
 <section class="observations">
   <h3>Observaciones</h3>
@@ -405,8 +400,31 @@ if (!isset($cotizacion) || !is_array($cotizacion)) {
   <td><?php echo nl2br($cotizacion['observaciones']); ?></td>
 
 
-</section>
+  <!-- Botón de Guardar Orden centrado en color verde -->
+<div style="display: flex; justify-content: center; margin-top: 20px;">
+  <button type="submit"
+          style="
+            background-color: #28a745; 
+            color: #fff; 
+            padding: 10px 20px; 
+            border: none; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            font-size: 16px;
+          ">
+    Generar Cotización
+  </button>
 </div>
+
+
+</section>
+
+
+</div>
+
+
+
+
 </body>
 
 </html>
