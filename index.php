@@ -1,18 +1,57 @@
 <?php
-// Si NO estás usando la BD por ahora, define $cotizacion manualmente:
+session_start();
+require 'conexion.php'; 
 
-// Código para generar el número autoincremental
-$counterFile = 'counter.txt';
-if (file_exists($counterFile)) {
-  $number = (int)file_get_contents($counterFile);
-} else {
-  $number = 1;
+// Si se envía el formulario (botón "Generar Cotización")
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['generar_cotizacion'])) {
+  // 1. Recibir valores del formulario
+  $nom_ven  = $_POST['nom_ven']  ?? '';
+  $fecha    = $_POST['fecha']    ?? '';
+  $correo   = $_POST['correo']   ?? '';
+  $cliente  = $_POST['cliente']  ?? '';
+  $giro     = $_POST['giro']     ?? '';
+  $celular  = $_POST['celular']  ?? '';
+  $contacto = $_POST['contacto'] ?? '';
+  $rut      = $_POST['rut']      ?? '';
+  $lugar    = $_POST['lugar']    ?? '';
+
+  // 2. Preparar la sentencia INSERT usando los nombres reales de las columnas
+  $sql = "INSERT INTO ct (nom_ven, fecha, correo, cliente, giro, celular, contacto, rut, lugar)
+          VALUES (:nom_ven, :fecha, :correo, :cliente, :giro, :celular, :contacto, :rut, :lugar)";
+  $stmt = $pdo->prepare($sql);
+
+  // 3. Asignar parámetros
+  $stmt->bindParam(':nom_ven',  $nom_ven);
+  $stmt->bindParam(':fecha',    $fecha);
+  $stmt->bindParam(':correo',   $correo);
+  $stmt->bindParam(':cliente',  $cliente);
+  $stmt->bindParam(':giro',     $giro);
+  $stmt->bindParam(':celular',  $celular);
+  $stmt->bindParam(':contacto', $contacto);
+  $stmt->bindParam(':rut',      $rut);
+  $stmt->bindParam(':lugar',    $lugar);
+
+  // 4. Ejecutar la sentencia
+  $stmt->execute();
+
+  // 5. Obtener el ID recién insertado (id_ct)
+  $id_ct = $pdo->lastInsertId();
+
+  // 6. Formatear el ID con ceros a la izquierda (opcional)
+  $displayNumber = str_pad($id_ct, 3, '0', STR_PAD_LEFT);
+
+  // 7. Redirigir para evitar el reenvío del formulario al refrescar (PRG)
+  header("Location: index.php?id_ct");
+ 
+  exit;
 }
-$displayNumber =  str_pad($number, 3, '0', STR_PAD_LEFT);
-// Ojo: la BD también podría llevar su propio autoincremento, esto es opcional
-file_put_contents($counterFile, $number + 1);
 
-
+// Si se accede a la página mediante GET y existe el parámetro 'cot_id', usamos ese número
+if (isset($_GET['id_ct'])) {
+  $displayNumber = $_GET['id_ct'];
+} else {
+  $displayNumber = "";
+}
 
 $cotizacion = [
 
@@ -36,11 +75,10 @@ $cotizacion = [
 
 ];
 
-// 3. (Opcional) para evitar warnings si $cotizacion no está definida
-if (!isset($cotizacion) || !is_array($cotizacion)) {
-  die('No hay datos de cotización disponibles.');
-}
+
+
 ?>
+
 
 <!DOCTYPE html>
 <html lang="es">
@@ -400,9 +438,9 @@ if (!isset($cotizacion) || !is_array($cotizacion)) {
   <td><?php echo nl2br($cotizacion['observaciones']); ?></td>
 
 
-  <!-- Botón de Guardar Orden centrado en color verde -->
+  <!-- Botón "Generar Cotización" con name="submit" -->
 <div style="display: flex; justify-content: center; margin-top: 20px;">
-  <button type="submit"
+  <button type="submit" name="generar_cotizacion"
           style="
             background-color: #28a745; 
             color: #fff; 
@@ -414,17 +452,18 @@ if (!isset($cotizacion) || !is_array($cotizacion)) {
           ">
     Generar Cotización
   </button>
+  
 </div>
-
+</form>
 
 </section>
-
-
 </div>
-
-
-
 
 </body>
 
 </html>
+
+
+
+
+
