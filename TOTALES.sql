@@ -1,0 +1,8 @@
+CREATE TABLE TOTALES (
+  id_to INT AUTO_INCREMENT PRIMARY KEY,
+  id_ct INT NOT NULL,
+  total_neto DECIMAL(10,2),
+  iva DECIMAL(10,2),
+  total DECIMAL(10,2),
+  FOREIGN KEY (id_ct) REFERENCES CT(id_ct)
+);

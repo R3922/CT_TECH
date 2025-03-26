@@ -2,6 +2,8 @@
 session_start();
 require 'conexion.php'; 
 
+
+
 // Si se envía el formulario (botón "Generar Cotización")
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['generar_cotizacion'])) {
   // 1. Recibir valores del formulario

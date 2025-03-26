@@ -1,0 +1,10 @@
+CREATE TABLE DETALLE (
+  id_deta INT AUTO_INCREMENT PRIMARY KEY,
+  id_ct INT NOT NULL,
+  deta VARCHAR(255),
+  und VARCHAR(50),
+  cant DECIMAL(10,2),
+  prec DECIMAL(10,2),
+  tot DECIMAL(10,2),
+  FOREIGN KEY (id_ct) REFERENCES CT(id_ct)
+);
